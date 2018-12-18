@@ -1,5 +1,5 @@
 ''' 
-improved game by bill and rice
+improved version of Mr Mulla's game by bill and rice
 new theme: Lord of the rings
 Goal: progress through the game without dying
 '''
