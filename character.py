@@ -22,10 +22,13 @@ class Character():
         else:
             print(self.name + " doesn't want to talk to you")
 
-    # Fight with this character
+    def give(self, give_item):
+      print(self.name + " doesn't want to your " + give_item)
+      return False
+    
     def fight(self, combat_item):
-        print(self.name + " doesn't want to fight with you")
-        return False
+      print(self.name + " doesn't want to fight with you")
+      return 3
         
 class Enemy(Character):
   enemies_defeated = 0
@@ -37,14 +40,16 @@ class Enemy(Character):
   def fight(self, combat_item):
     if combat_item == self.weakness:
       print("You fend " + self.name + " off with the " + combat_item)
+      
       Enemy.enemies_defeated += 1
       return True
     else:
       print(self.name + " crushes you, puny adventurer!")
       return False
       
-  def set_weakness(self, item_weakness):
+  def set_weakness(self, item_weakness, direction=''):
     self.weakness = item_weakness
+    self.direction = direction
     
   def get_weakness(self):
     return self.weakness
@@ -69,9 +74,10 @@ class Neutral(Character):
   def give(self, give_item):
     if give_item == self.weakness:
       print("You give " + self.name + " the " + give_item)
+      return True
     else:
       print(self.name + " doesnt want your " + give_item + "!")
-    return True
+    return False
       
   def set_weakness(self, item_weakness, direction=''):
     self.weakness = item_weakness
@@ -101,7 +107,7 @@ class Friend(Character):
       return True
     else:
       print(self.name + ' doesnt want your ' + give_item)
-    return False
+      return False
   
   def hug(self):
     print(self.name + " hugs you back!")

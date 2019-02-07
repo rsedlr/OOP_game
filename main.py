@@ -1,23 +1,24 @@
 ''' 
-improved version of Mr Mulla's game by bill and rice
+improved game by bill and rice
 new theme: Lord of the rings
 Goal: progress through the game without dying
+game status: basically done, could always add more content but it works for now
 '''
 from room import Room
 from character import Enemy, Character, Friend, Neutral
 from item import Item
 
-HobbitHole = Room("Hobbit Hole")
-HobbitHole.set_description("pleasant little hole, small but cosy")
+HobbitHole = Room("charcter")
+HobbitHole.set_description("choose your warrior")
 
-HobbitKitchen = Room("Hobbit Kitchen")
-HobbitKitchen.set_description("definitely not the biggest kitchen, but a kitchen none the less")
+HobbitKitchen = Room("Warrior")
+HobbitKitchen.set_description("Close combat specialist")
 
-Cupboard = Room("Cupboard")
-Cupboard.set_description("Small and hidden")
+Cupboard = Room("Ranger")
+Cupboard.set_description("Ranged combat specialist")
 
-Farmland = Room("Farmland")
-Farmland.set_description("A large expanse of grass, fields and meadows")
+Farmland = Room("Mage")
+Farmland.set_description("Uses spells & shit")
 
 Forrest = Room("Forrest")
 Forrest.set_description("A massive forrest, dense with tree's and foliage")
@@ -25,8 +26,8 @@ Forrest.set_description("A massive forrest, dense with tree's and foliage")
 Mirkwood = Room("Mirkwood")
 Mirkwood.set_description("A dingey, dank area saturated with dangerous things")
 
-Mirkwood = Room("Mirkwood")
-Mirkwood.set_description("A dingey, dank area saturated with dangerous things")
+BossArea = Room("Mordor")
+BossArea.set_description("A dangerous place, with volcanoes scattered everywhere")
 
 Hobbiton = Room("Hobbiton")
 Hobbiton.set_description("A respectable rural village filled with polite people, and you")
@@ -47,16 +48,20 @@ Hobbiton.link_room(Storage, "east", False)
 Storage.link_room(Hobbiton, "west", True)
 Forrest.link_room(Mirkwood, "north", False)
 Mirkwood.link_room(Forrest, "south", True)
+Mirkwood.link_room(BossArea, "north", False)
+BossArea.link_room(Mirkwood, "south", True)
+HobbitKitchen.link_room(Cupboard, "south", False)
+Cupboard.link_room(HobbitKitchen, "north", True)
 
 
 Gandalf = Friend("Gandalf", "A tall, polite grey wizard")
 Gandalf.set_conversation("Good day master Baggins\nThe door is jammed but i can open it for you, so long as i get a drink to recharge my magic")
-Gandalf.set_want("tea n biscuits", "north")
+Gandalf.set_want("tea", "north")
 HobbitHole.set_character(Gandalf)
 
 flyGarry = Enemy("Garry the fly", "A tiny fly making an annoying buzzing noise")
 flyGarry.set_conversation("Buzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
-flyGarry.set_weakness("book")
+flyGarry.set_weakness("book", "south")
 HobbitKitchen.set_character(flyGarry)
 
 farmerSteve = Neutral("Steve the farmer", "An honest man earning an honest living")
@@ -79,15 +84,15 @@ shopKeeper.set_conversation("what i have to offer:\n -farming sythe\n -broadswoa
 shopKeeper.set_weakness("gold", "east")
 Hobbiton.set_character(shopKeeper)
 
-boss = Enemy("boss", "The scariest thing you\'ve ever seen")
-boss.set_conversation("you may have made it this far, but you wont defeat me")
-boss.set_weakness("swoard")
-Hobbiton.set_character(boss)
+boss = Enemy("Morgoth, the First Dark Lord", "edgelord no.1")
+boss.set_conversation("And he descended upon Arda in power and majesty greater than any other of the Valar, as a mountain that wades in the sea and has its head above the clouds and is clad in ice and crowned with smoke and fire; and the light of the eyes of Melkor was like a flame that withers with heat and pierces with a deadly cold")
+boss.set_weakness("sword")
+BossArea.set_character(boss)
 
 
-tea_n_biscuits = Item("tea n biscuits")
-tea_n_biscuits.set_description("freshly poured")
-HobbitKitchen.set_item(tea_n_biscuits)
+tea = Item("tea")
+tea.set_description("freshly poured")
+HobbitKitchen.set_item(tea)
 
 book = Item("book")
 book.set_description("a big book entitled \'farming 101\'")
@@ -105,15 +110,15 @@ inhailer = Item("inhailer")
 inhailer.set_description("medical grade goodness")
 Storage.set_item(inhailer)
 
-swoard = Item("swoard")
-swoard.set_description("sharp and heavy")
-Storage.set_item(swoard)
+sword = Item("sword")
+sword.set_description("An Encharnted Elven Sword: sharper than diamond, glowing in the darkness")
+Cupboard.set_item(sword)
 
 current_room = HobbitHole
 backpack = []
 
 dead = False
-print('hello punie traveler,\neach room has a challenge, to progess to the next section you must complete the problem in each room, either by killing the enemy or assisting a friend to help you on your way\n\nList of commands:\n-talk\n-north, east, south, west\n-take\n-give\n-fight\n-sing\n')
+print('hello punie traveler,\neach room has a challenge, to progess to the next section you must complete the problem in each room, either by killing the enemy or assisting a friend to help you on your way\n\nList of commands:\n-talk: talks to character in area\n-north, east, south, west: moves in given direction\n-take: takes current item\n-give: attempts to give character an item\n-fight: attacks the enemy character\n-sing: sing a christmas song\n')
 while dead == False:
   print("\n")
   current_room.get_details()
@@ -138,6 +143,8 @@ while dead == False:
   elif command == "talk":
     if inhabitant is not None:
       inhabitant.talk()
+    else:
+      print('There is no one to talk to')
   elif command == "give":
     if inhabitant is not None:
       print("What will you give?")
@@ -150,19 +157,23 @@ while dead == False:
       else:
         print("You don't have a " + give_with)
     else:
-      print("There is no one here to fight with")
+      print("There is no one here to give")
   elif command == "fight":
     if inhabitant is not None:
       print("What will you fight with?")
       fight_with = input()
       if fight_with in backpack:
-        if inhabitant.fight(fight_with) == True:
+        fight = inhabitant.fight(fight_with)
+        if fight == True:
           print("Hooray, you won the fight!")
+          if inhabitant.direction != '':
+            print("you can now go " + inhabitant.direction)
+          current_room.enableDirection(inhabitant.direction)
           current_room.character = None
           if inhabitant.get_defeated() == 2:
             print("Congratulations, you have brought peace to the shire!")
             dead = True
-        else:
+        elif fight != 3:
           print("Oh dear, you lost the fight.")
           print("That's the end of the game")
           dead = True
