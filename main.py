@@ -8,17 +8,17 @@ from room import Room
 from character import Enemy, Character, Friend, Neutral
 from item import Item
 
-HobbitHole = Room("charcter")
-HobbitHole.set_description("choose your warrior")
+HobbitHole = Room("Hobbit Hole")
+HobbitHole.set_description("Humble little house, full of character")
 
-HobbitKitchen = Room("Warrior")
-HobbitKitchen.set_description("Close combat specialist")
+HobbitKitchen = Room("Hobbit Kitchen")
+HobbitKitchen.set_description("Surprisingly well equipped for a kitchen of its size")
 
-Cupboard = Room("Ranger")
-Cupboard.set_description("Ranged combat specialist")
+Cupboard = Room("Cupboard")
+Cupboard.set_description("A small, easily missed, room. It smells of enchantment")
 
-Farmland = Room("Mage")
-Farmland.set_description("Uses spells & shit")
+Farmland = Room("Farmland")
+Farmland.set_description("An honest farming patch, enough for the village at least")
 
 Forrest = Room("Forrest")
 Forrest.set_description("A massive forrest, dense with tree's and foliage")
