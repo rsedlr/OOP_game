@@ -15,13 +15,19 @@ HobbitKitchen = Room("Hobbit Kitchen")
 HobbitKitchen.set_description("Surprisingly well equipped for a kitchen of its size")
 
 Cupboard = Room("Cupboard")
-Cupboard.set_description("A small, easily missed, room. It smells of enchantment")
+Cupboard.set_description("A small, easily missed, room. smells good")
 
 Farmland = Room("Farmland")
 Farmland.set_description("An honest farming patch, enough for the village at least")
 
 Forrest = Room("Forrest")
 Forrest.set_description("A massive forrest, dense with tree's and foliage")
+
+DustyGrove = Room("DustyGrove")
+DustyGrove.set_description("a dusty grove saturated with bushes. there are great big elephants in the distance.")
+
+DeadMarshes = Room("DeadMarshes")
+DeadMarshes.set_description("a winding pathway through deadly graveyards")
 
 Mirkwood = Room("Mirkwood")
 Mirkwood.set_description("A dingey, dank area saturated with dangerous things")
@@ -46,8 +52,12 @@ Farmland.link_room(Hobbiton, "east", True)
 Hobbiton.link_room(Farmland, "west", True)
 Hobbiton.link_room(Storage, "east", False)
 Storage.link_room(Hobbiton, "west", True)
-Forrest.link_room(Mirkwood, "north", False)
-Mirkwood.link_room(Forrest, "south", True)
+Forrest.link_room(DeadMarshes, "north", False)
+DeadMarshes.link_room(Forrest, "south", True)
+Forrest.link_room(DustyGrove, "east", True)
+DustyGrove.link_room(Forrest, "west", True)
+DeadMarshes.link_room(Mirkwood, "north", False)
+Mirkwood.link_room(DeadMarshes, "south", True)
 Mirkwood.link_room(BossArea, "north", False)
 BossArea.link_room(Mirkwood, "south", True)
 HobbitKitchen.link_room(Cupboard, "south", False)
@@ -73,6 +83,11 @@ rabbitHarry = Neutral("harry the rabbit", "The biggest rabbit you\'ve ever seen"
 rabbitHarry.set_conversation("im famished, cant risk farmer Steve hitting me with a pitchfork again :(")
 rabbitHarry.set_weakness("carrot", "north")
 Forrest.set_character(rabbitHarry)
+
+path = Neutral("a signpost is here ", "\'do not to follow the lights.\'")
+path.set_conversation("you need to find a safe path through the marshes")
+path.set_weakness("map", "north")
+DeadMarshes.set_character(path)
 
 bigBoiDan = Neutral("Dan the dragon", "A massive dragon with asthma, dont let that fool u tho, he can still mess u up")
 bigBoiDan.set_conversation("your in my teritory **weeze** now boi **asthma attack - gets out inhaler and takes a breath** drat its ran out, get me a new one and ill spare your life")
@@ -105,6 +120,10 @@ Farmland.set_item(carrot)
 gold = Item("gold")
 gold.set_description("vary shiny, looks pretty expensive")
 Forrest.set_item(gold)
+
+map = Item("map")
+map.set_description("dusty, has a lot of blue")
+DustyGrove.set_item(map)
 
 inhailer = Item("inhailer")
 inhailer.set_description("medical grade goodness")
