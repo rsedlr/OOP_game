@@ -84,6 +84,12 @@ rabbitHarry.set_conversation("im famished, cant risk farmer Steve hitting me wit
 rabbitHarry.set_weakness("carrot", "north")
 Forrest.set_character(rabbitHarry)
 
+
+path = Neutral("a signpost is here ", "\'do not to follow the lights.\'")
+path.set_conversation("you need to find a safe path through the marshes")
+path.set_weakness("map", "north")
+DeadMarshes.set_character(path)
+
 bigBoiDan = Neutral("Dan the dragon", "A massive dragon with asthma, dont let that fool u tho, he can still mess u up")
 bigBoiDan.set_conversation("your in my teritory **weeze** now boi **asthma attack - gets out inhaler and takes a breath** drat its ran out, get me a new one and ill spare your life")
 bigBoiDan.set_weakness("inhailer", "north")
