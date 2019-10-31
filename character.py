@@ -20,7 +20,7 @@ class Character():
         if self.conversation is not None:
             print("[" + self.name + " says]: " + self.conversation)
         else:
-            print(self.name + " doesn't want to talk to you")
+            print(self.name + "is very busy, you should let them get on")
 
     def give(self, give_item):
       print(self.name + " doesn't want to your " + give_item)
