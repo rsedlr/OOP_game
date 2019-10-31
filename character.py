@@ -20,7 +20,7 @@ class Character():
         if self.conversation is not None:
             print("[" + self.name + " says]: " + self.conversation)
         else:
-            print(self.name + "is very busy, you should let them get on")
+            print(self.name + "is very busy, you should let them get on with what they are doing")
 
     def give(self, give_item):
       print(self.name + " doesn't want to your " + give_item)
@@ -39,7 +39,7 @@ class Enemy(Character):
   # Fight with an enemy
   def fight(self, combat_item):
     if combat_item == self.weakness:
-      print("You fend " + self.name + " off with the " + combat_item)
+      print("You fend " + self.name + " off with the " + combat_item + "successfully")
       
       Enemy.enemies_defeated += 1
       return True
